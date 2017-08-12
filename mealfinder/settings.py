@@ -25,7 +25,7 @@ SECRET_KEY = '+w&)i+=p#0$wg1bhw*e_m7u_p+nxriiu1#ghba+*r(th=sm=l1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['meal-finder1.herokuapp.com']
 
 
 # Application definition
