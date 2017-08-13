@@ -81,8 +81,12 @@ WSGI_APPLICATION = 'mealfinder.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django_mongodb_engine',
+        'NAME': 'heroku_xdfmznf6',
+        'HOST': 'ds143211.mlab.com',
+        'PORT': '43211',
+        'USER': 'heroku_xdfmznf6',
+        'PASSWORD': 'fsr4v32c347eent1cnlhg5llqp',
     }
 }
 
