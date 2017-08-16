@@ -19,18 +19,22 @@ def findMeal(request):
 
         if restaurant is None:  # if not found, query Nutritionix database
             nix = Nutritionix()
-            nix.search("%s" % restaurant ).nxql(
+            nixResults = nix.search("%s" % restaurant ).nxql(
                 filters={
                     "item_type":1
                 },
-                fields=["item_name", "item_id", "nf_calories"]
+                fields=["item_name", "nf_total_fat", 
+                    "nf_total_carbohydrate", "nf_protein"]
             ).json()
-            
+
+            # TODO: parse json and fill in DB
+
+            restaurant = Restaurant.objects.get(name=request.GET['restaurant'])
+
         clientMacros = JSON.serialize(request.GET['macros'])
 
         # find closest meal to fit macros
         for meal in restaurant.meals:
-            # query application database
 
             
             data = 
