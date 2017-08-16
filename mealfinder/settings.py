@@ -136,3 +136,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+NIX_APP_ID = "b5b7126c"
+NIX_API_KEY = "a94c4d03df0bc8cf5aa2a65c1273e11c"
