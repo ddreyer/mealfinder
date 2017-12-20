@@ -15,11 +15,12 @@ def findMeal(request):
             macros in a matrix (protein, fat, carbs)
     """
     if request.method == "GET":
-        restaurant = Restaurant.objects.get(name=request.GET['restaurant'])
-
-        if restaurant is None:  # if not found, query Nutritionix database
+        restaurant_name = request.GET['restaurant']
+        try:
+            restaurant = Restaurant.objects.get(name=restaurant_name)
+        except Exception as e:  # if not found, query Nutritionix database
             nix = Nutritionix()
-            nixResults = nix.search("%s" % restaurant ).nxql(
+            nixResults = nix.search("%s" % restaurant_name ).nxql(
                 filters={
                     "item_type":1
                 },
@@ -34,10 +35,10 @@ def findMeal(request):
         clientMacros = JSON.serialize(request.GET['macros'])
 
         # find closest meal to fit macros
-        for meal in restaurant.meals:
+        #for meal in restaurant.meals:
 
             
-            data = 
+            #data =
         return HttpResponse(restaurant.name)
         # return Response()
     else:
