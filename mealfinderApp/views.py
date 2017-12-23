@@ -16,11 +16,22 @@ def findMeal(request):
     """
     if request.method == "GET":
         restaurant_name = request.GET['restaurant']
+
+        # for testing purposes
+        #Restaurant.objects.get(name=restaurant_name).delete()
+
         try:
+            # Query restaurant items
             restaurant = Restaurant.objects.get(name=restaurant_name)
+
         except Exception as e:  # if not found, query Nutritionix database
+
+            # query database
             nix = Nutritionix()
-            nixResults = nix.search("%s" % restaurant_name ).nxql(
+            nixResults = nix.search().nxql(
+                queries={
+                    "brand_name":"%s" % restaurant_name
+                },
                 filters={
                     "item_type":1
                 },
@@ -28,18 +39,29 @@ def findMeal(request):
                     "nf_total_carbohydrate", "nf_protein"]
             ).json()
 
-            # TODO: parse json and fill in DB
+            # Invalid restaurant name returns no results
+            if (nixResults["total"] == 0):
+                return HttpResponse("Invalid request")
 
-            restaurant = Restaurant.objects.get(name=request.GET['restaurant'])
+            # Store restaurant items into DB
+            items = []
+            for item in nixResults["hits"]:
+                items.append(item["fields"])
 
-        clientMacros = JSON.serialize(request.GET['macros'])
+            Restaurant.objects.create(
+                name=restaurant_name,
+                items=items
+            )
 
+            # Query restaurant items
+            restaurant = Restaurant.objects.get(name=restaurant_name)
+
+        clientMacros = request.GET['macros']
+        items = restaurant.items
         # find closest meal to fit macros
-        #for meal in restaurant.meals:
+        # for meal in restaurant.items:
+        #     item = meal
 
-            
-            #data =
-        return HttpResponse(restaurant.name)
-        # return Response()
+        return HttpResponse(restaurant.items)
     else:
         return HttpResponse("Invalid request")
